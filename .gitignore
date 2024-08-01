@@ -1,5 +1,5 @@
-#npm journal
-npm-debug.log*
+#journal
+*.log
 
 #project dependences
 node_modules
