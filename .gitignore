@@ -1,0 +1,12 @@
+#npm journal
+npm-debug.log*
+
+#project dependences
+node_modules
+
+#Osx attributes
+.DS_Store
+
+#temp files
+*.tmp
+*~
