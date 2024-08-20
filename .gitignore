@@ -4,6 +4,13 @@
 #project dependences
 node_modules
 
+
+#old es
+dist
+
+#old es
+public/dist
+
 #Osx attributes
 .DS_Store
 
