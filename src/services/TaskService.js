@@ -1,23 +1,36 @@
-import { taskRepository } from "../objects/taskObjects.js";
-export default class TaskService{
-    async createTask(title, discription, complite, userEmail) {
-        return await taskRepository.createTask(title, discription, complite, userEmail);
-    }
+import inversify from "inversify";
+import { APP_TYPES } from "../di/appTypes.js";
 
-    async getAllTasks()  {
-        return await taskRepository.getAllTasks();
+export default class TaskService {
+    constructor(taskRepository){
+        this._taskRepository = taskRepository;
     }
+  async createTask(title, discription, complite, userEmail) {
+    return await taskRepository.createTask(
+      title,
+      discription,
+      complite,
+      userEmail
+    );
+  }
 
-    async getTaskByEmail(userEmail){
-        return await taskRepository.getTaskByEmail(userEmail);
-    }
+  async getAllTasks() {
+    return await this._taskRepository.getAllTasks();
+  }
 
-    
-    async updateTask(id,title, discription, complite){
-        return await taskRepository.updateTask(id,title, discription, complite)
-    }
+  async getTaskByEmail(userEmail) {
+    return await this._taskRepository.getTaskByEmail(userEmail);
+  }
 
-    async deleteTask(id){
-        return await taskRepository.deleteTask(id)
-    }
+  async updateTask(id, title, discription, complite) {
+    return await this._taskRepository.updateTask(id, title, discription, complite);
+  }
+
+  async deleteTask(id) {
+    return await this._taskRepository.deleteTask(id);
+  }
 }
+
+
+inversify.decorate(inversify.injectable(),TaskService);
+inversify.decorate(inversify.inject(APP_TYPES.TaskRepository),TaskService,0);

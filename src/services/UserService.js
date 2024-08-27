@@ -1,24 +1,29 @@
-import { userRepository } from "../objects/userObjects.js";
+import inversify from "inversify";
+import { APP_TYPES } from "../di/appTypes.js";
 
-export default class UserService{
-    async createUser(username , email, password,) {
-        return await userRepository.createUser(username , email, password,);
+export default class UserService {
+    constructor(userRepository){
+        this._userRepository = userRepository
     }
- 
-    async getAllUsers()  {
-        return await userRepository.getAllUsers();
-    }
+  async createUser(username, email, password) {
+    return await this._userRepository.createUser(username, email, password);
+  }
+  async getAllUsers() {
+    return await this._userRepository.getAllUsers();
+  }
 
-    async getUserByName(username){
-        return await userRepository.getUserByName(username);
-    }
+  async getUserByName(username) {
+    return await this._userRepository.getUserByName(username);
+  }
 
-    
-    async updateUser(username , email, password,userId,){
-        return await userRepository.updateUser(username , email, password,userId,)
-    }
+  async updateUser(username, email, password, userId) {
+    return await this._userRepository.updateUser(username, email, password, userId);
+  }
 
-    async deleteUser(email){
-        return await userRepository.deleteUser(email)
-    }
+  async deleteUser(email) {
+    return await this._userRepository.deleteUser(email);
+  }
 }
+
+inversify.decorate(inversify.injectable(),UserService);
+inversify.decorate(inversify.inject(APP_TYPES.UserRepository),UserService,0);

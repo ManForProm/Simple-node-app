@@ -1,13 +1,9 @@
 import { Router } from 'express';
-import { userController, } from '../objects/userObjects.js';
+import { container } from '../di/appModule.js';
+import { APP_TYPES } from "../di/appTypes.js";
 
-// class RouterIn{
-//     get(){}
-//     post(){}
-//     put(){}
-//     delete(){}
-// }
 const router = Router();
+const userController =  container.get(APP_TYPES.UserController);
 
 router.get('/', userController.getUsers);
 router.get('/:username',userController.getUserByName);
