@@ -1,10 +1,11 @@
 import inversify from "inversify";
 import { APP_TYPES } from "../di/appTypes.js";
 import { asyncWrapper } from "../utils/asyncWrapper.js";
+import { validationWrapper } from "../utils/ValidationProvider.js";
 
 export default class TaskController {
     constructor(taskService){
-        this._taskSercice = taskService;
+        this._taskService = taskService;
     }
   getTasks = asyncWrapper(async (req, res) => {
     const tasks = await this._taskService.getAllTasks();
@@ -13,9 +14,16 @@ export default class TaskController {
 
   getTasksByEmail = asyncWrapper(async (req, res) => {
     const userEmail = req.params.userEmail;
+    const response = async () => {
+      const tasks = await this._taskService.getTaskByEmail(userEmail);
+      res.json(tasks);
+    }
     console.log("Received userEmail:", userEmail);
-    const tasks = await this._taskService.getTaskByEmail(userEmail);
-    res.json(tasks);
+    validationWrapper(
+      response,
+      req,
+      res,
+    );
   });
 
   createTask = asyncWrapper(async (req, res) => {

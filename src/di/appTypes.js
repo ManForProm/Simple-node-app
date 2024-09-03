@@ -6,4 +6,5 @@ export const APP_TYPES = {
     UserController: Symbol.for("UserController"),
     UserRepository: Symbol.for("UserRepository"),
     UserService: Symbol.for("UserService"),
+    ValidationProvider: Symbol.for("ValidationProvider"),
 }
