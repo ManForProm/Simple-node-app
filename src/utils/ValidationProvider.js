@@ -58,8 +58,7 @@ export class ValidationProvider {
             .withMessage("Title is required")
             .isString()
             .withMessage("Title should be string"),
-        body("discription").optional
-            .isString()
+        body("discription").isString()
             .withMessage("Discription should be string"),
         body("complete").exists({ checkFalsy: true })
             .isBoolean()
@@ -71,13 +70,11 @@ export class ValidationProvider {
     ]}
     putTaskValidationChain(){return [
         param('id').notEmpty().withMessage("Task id is required"),
-        body('title').optional.isString()
+        body('title').isString()
             .withMessage("Title should be string"),
-        body("discription").optional
-            .isString()
+        body("discription").isString()
             .withMessage("Discription should be string"),
-        body("complete").optional
-            .isBoolean()
+        body("complete").isBoolean()
             .withMessage("Complete state should be boolean"),
         body("userEmail").exists({ checkFalsy: false }).withMessage("User Email isn't requred")]}
         
