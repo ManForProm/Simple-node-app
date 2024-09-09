@@ -10,7 +10,7 @@ router.get('/', taskController.getTasks);
 router.get('/:userEmail',validationProvider.getByEmailTaskValidationChain(validationProvider),taskController.getTasksByEmail);
 router.post('/',validationProvider.postTaskValidationChain(validationProvider),taskController.createTask);
 router.put('/:id',validationProvider.putTaskValidationChain(validationProvider),taskController.updateTask);
-router.delete('/:id',validationProvider.deleteTaskValidationChain(validationProvider),taskController.deleteTask);
+router.delete('/:id',validationProvider.deleteTaskValidationChain(),taskController.deleteTask);
 
 export default router;
 
