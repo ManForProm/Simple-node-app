@@ -7,9 +7,9 @@ const userController =  container.get(APP_TYPES.UserController);
 const validationProvider =  container.get(APP_TYPES.ValidationProvider);
 
 router.get('/', userController.getUsers);
-router.get('/:username',validationProvider.getByUserNameValidationChain, userController.getUserByName);
-router.post('/',validationProvider.postUserValidationChain,userController.createUser);
-router.put('/:id',userController.updateUser);
-router.delete('/:id',userController.deleteUser);
+router.get('/:username',validationProvider.getByUserNameValidationChain(validationProvider), userController.getUserByName);
+router.post('/',validationProvider.postUserValidationChain(validationProvider),userController.createUser);
+router.put('/:id',validationProvider.putUserValidationChain(validationProvider),userController.updateUser);
+router.delete('/:id',validationProvider.deleteUserValidationChain(validationProvider),userController.deleteUser);
 
 export default router;

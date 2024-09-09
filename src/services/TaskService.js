@@ -6,7 +6,7 @@ export default class TaskService {
         this._taskRepository = taskRepository;
     }
   async createTask(title, discription, complite, userEmail) {
-    return await taskRepository.createTask(
+    return await this._taskRepository.createTask(
       title,
       discription,
       complite,

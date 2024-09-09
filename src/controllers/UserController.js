@@ -58,9 +58,9 @@ export default class UserController {
   });
 
   deleteUser = asyncWrapper(async (req, res) => {
-    const email = req.params.email;
-    await this._userService.deleteUser(email);
-    console.log("Received Email:", email);
+    const id = req.params.id;
+    await this._userService.deleteUser(id);
+    console.log("Received Email:", id);
     res.json({ status: "success" });
   });
 }

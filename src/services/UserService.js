@@ -11,7 +11,9 @@ export default class UserService {
   async getAllUsers() {
     return await this._userRepository.getAllUsers();
   }
-
+  async getUserByEmail(email){
+    return await this._userRepository.getUserByEmail(email)
+  }
   async getUserByName(username) {
     return await this._userRepository.getUserByName(username);
   }
@@ -20,8 +22,8 @@ export default class UserService {
     return await this._userRepository.updateUser(username, email, password, userId);
   }
 
-  async deleteUser(email) {
-    return await this._userRepository.deleteUser(email);
+  async deleteUser(id) {
+    return await this._userRepository.deleteUser(id);
   }
 }
 

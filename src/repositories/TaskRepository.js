@@ -5,17 +5,22 @@ import User from "../models/user.js";
 export default class TaskRepository {
   async createTask(title, discription, complite, userEmail) {
     //Find user by email
-    const user = await User.findOne({ where: { email: userEmail } });
+      const user = await User.findOne({ where: { email: userEmail } });
     if (!user) {
       throw new Error("User not found");
     }
 
     //Task_id query logic
-    const lastTask = await Task.findOne({
-      order: [["task_id", "DESC"]],
-    });
+    let lastTask 
+    try{
+      lastTask = await Task.findOne({
+        order: [["task_id", "DESC"]],
+      });
+    }catch{
+      console.log(lastTask)
+    }
     const taskId = lastTask ? lastTask.task_id + 1 : 1;
-
+    console.log(`${title} ${discription} ${complite} ${user.email} ${taskId  }`)
     const task = Task.build({
       task_id: taskId,
       title: title,
@@ -35,7 +40,7 @@ export default class TaskRepository {
   }
 
   async updateTask(task_id, title, discription, complite) {
-    console.log(` ${(task_id, title, discription, complite)} `);
+    console.log(`Repository data to update ${(task_id, title, discription, complite)} `);
     const updatedTask = Task.update(
       {
         task_id: task_id,

@@ -32,6 +32,7 @@ Task.init(
         key: "email",
       },
       allowNull: false,
+      onDelete: "CASCADE",
     },
   },
   {

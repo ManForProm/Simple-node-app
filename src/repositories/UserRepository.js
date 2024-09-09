@@ -11,6 +11,10 @@ export default class UserRepository {
     return await user.save();
   }
 
+  async getUserByEmail(email){
+    return await User.findAll({ where: { email: email } });
+  }
+
   async getUserByName(username) {
     return await User.findAll({ where: { username: username } });
   }
@@ -20,11 +24,11 @@ export default class UserRepository {
   }
 
   async updateUser(username, email, password, userId) {
-    console.log(` ${username} ${email} ${password} ${userId} `);
+    console.log(`${userId} ${username} ${email} ${password} ${userId} `);
     const updatedUser = User.update(
       {
-        username: username,
-        email: email,
+        // username: username,
+        // email: email,
         password: password,
       },
       {
@@ -34,8 +38,9 @@ export default class UserRepository {
     return await updatedUser;
   }
 
-  deleteTask = async (email) => {
-    await User.destroy({ where: { email: userEmail } });
+  deleteUser = async (userId) => {
+    console.log("Attempting to delete user with ID:", userId);
+    await User.destroy({ where: { id: userId } });
   };
 }
 
