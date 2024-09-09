@@ -25,7 +25,7 @@ export default class TaskRepository {
       task_id: taskId,
       title: title,
       discription: discription,
-      complite: complite,
+      complete: complite,
       userEmail: user.email,
     });
     return await task.save();
@@ -46,7 +46,7 @@ export default class TaskRepository {
         task_id: task_id,
         title: title,
         discription: discription,
-        complite: complite,
+        complete: complite,
       },
       {
         where: { task_id: task_id },

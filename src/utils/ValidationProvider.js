@@ -94,7 +94,7 @@ export class ValidationProvider {
         console.log(`validation value: ${value}`);
         const task = await this._taskService.getTaskByEmail(value);
         if(!task.toString()){
-            throw new Error("Email is not exist");
+            throw new Error("Tasks for this email is not exist");
         }
     }
     isEmailExist = async (value) => {
@@ -113,15 +113,6 @@ export class ValidationProvider {
 
 export const validationWrapper = (fn,req,res) => {
     const errors = validationResult(req);
-    console.log(errors);
-    if(errors.isEmpty()){
-        return fn();
-    }
-    res.status(400).json({success: false,
-         errors: errors.array() });
-}
-export const validationWrapper1 = (fn,req,res,validationResult1) => {
-    const errors = validationResult1(req);
     console.log(errors);
     if(errors.isEmpty()){
         return fn();

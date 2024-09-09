@@ -21,7 +21,7 @@ Task.init(
       allowNull: false,
     },
     discription: DataTypes.STRING,
-    complite: {
+    complete: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
