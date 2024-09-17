@@ -1,5 +1,3 @@
-import inversify from "inversify";
-import { APP_TYPES } from "../di/appTypes.js";
 
 export default class TaskService {
     constructor(taskRepository){
@@ -30,7 +28,3 @@ export default class TaskService {
     return await this._taskRepository.deleteTask(id);
   }
 }
-
-
-inversify.decorate(inversify.injectable(),TaskService);
-inversify.decorate(inversify.inject(APP_TYPES.TaskRepository),TaskService,0);

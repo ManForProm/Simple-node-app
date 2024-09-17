@@ -1,11 +1,11 @@
-import inversify from "inversify";
-import { APP_TYPES } from "../di/appTypes.js";
+import { body, param } from 'express-validator';
 import { asyncWrapper } from "../utils/asyncWrapper.js";
 import { validationWrapper } from "../utils/ValidationProvider.js";
 
 export default class TaskController {
-    constructor(taskService){
+    constructor(taskService, validationProvider){
         this._taskService = taskService;
+        this._validationProvider = validationProvider;
     }
   getTasks = asyncWrapper(async (req, res) => {
     const tasks = await this._taskService.getAllTasks();
@@ -46,7 +46,7 @@ export default class TaskController {
   updateTask = asyncWrapper(async (req, res) => {
     const { title, discription, complete, userEmail } = req.body;
     const task_id = parseInt(req.params.id);
-    const updatedTask = await this_taskService.updateTask(
+    const updatedTask = await this._taskService.updateTask(
       task_id,
       title,
       discription,
@@ -62,7 +62,40 @@ export default class TaskController {
     console.log("Received Id:", id);
     res.json({ status: "success" });
   });
-}
+  getByEmailTaskValidationChain(){
+    return [ param('userEmail')
+                            .isEmail()
+                            .custom(this._validationProvider.isEmailTaskNotExist),]
+    }
 
-inversify.decorate(inversify.injectable(),TaskController)
-inversify.decorate(inversify.inject(APP_TYPES.TaskService),TaskController,0);
+  postTaskValidationChain(){return [
+      body('title').exists({ checkFalsy: true })
+            .withMessage("Title is required")
+            .isString()
+            .withMessage("Title should be string"),
+      body("discription").isString()
+            .withMessage("Discription should be string"),
+      body("complete").exists({ checkFalsy: true })
+            .isBoolean()
+            .withMessage("Complete state should be boolean"),
+      body("userEmail").exists({ checkFalsy: true })
+            .isEmail()
+            .withMessage("Provide valid email")
+            .custom(this._validationProvider.isEmailExist),
+    ]}
+  putTaskValidationChain(){return [
+    param("id").notEmpty().withMessage("Task id is required"),
+    body("title").isString().withMessage("Title should be string"),
+    body("discription").isString().withMessage("Discription should be string"),
+    body("complete")
+      .isBoolean()
+      .withMessage("Complete state should be boolean"),
+    body("userEmail")
+      .exists({ checkFalsy: false })
+      .withMessage("User Email isn't requred"),
+  ];}
+        
+    deleteTaskValidationChain(){return [ param('id')
+        .notEmpty()
+        .withMessage("Task id is required"),]}
+  }
